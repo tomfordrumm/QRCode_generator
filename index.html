@@ -6,68 +6,6 @@
   <title>QR Code Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-  <script>
-
-    const qrCode = new QRCodeStyling({
-      width: 300,
-      height: 300,
-      type: "svg",
-      data: "https://example.com",
-      imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 0 },
-      dotsOptions: { color: "#000000", type: "square" },
-      backgroundOptions: { color: "#ffffff" },
-      cornersSquareOptions: { type: "square", color: "#000000" },
-      cornersDotOptions: { type: "square", color: "#000000" }
-    });
-
-    const updateQRCode = () => {
-      const data = document.getElementById('data').value;
-      const width = parseInt(document.getElementById('width').value);
-      const height = parseInt(document.getElementById('height').value);
-
-      const dotsType = document.getElementById('dotsType').value;
-      const dotsColor = document.getElementById('dotsColor').value;
-      const bgColor = document.getElementById('bgColor').value;
-      const cornerSquareType = document.getElementById('cornerSquareType').value;
-      const cornerSquareColor = document.getElementById('cornerSquareColor').value;
-      const cornerDotType = document.getElementById('cornerDotType').value;
-      const cornerDotColor = document.getElementById('cornerDotColor').value;
-
-      qrCode.update({
-        width,
-        height,
-        data,
-        dotsOptions: { type: dotsType, color: dotsColor },
-        backgroundOptions: { color: bgColor },
-        cornersSquareOptions: { type: cornerSquareType, color: cornerSquareColor },
-        cornersDotOptions: { type: cornerDotType, color: cornerDotColor }
-      });
-    };
-
-    document.addEventListener('DOMContentLoaded', () => {
-      qrCode.append(document.getElementById('qr-preview'));
-      document.querySelectorAll('input,select').forEach(el => {
-        el.addEventListener('change', updateQRCode);
-      });
-      
-      document.getElementById('image').addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = () => {
-          qrCode.update({ image: reader.result });
-        };
-        reader.readAsDataURL(file);
-      });
-
-      document.getElementById('downloadBtn').addEventListener('click', () => {
-        const ext = document.getElementById('downloadType').value;
-        qrCode.download({ name: 'qr-code', extension: ext });
-      });
-
-      updateQRCode();
-    });
-  </script>
 </head>
 <body class="min-h-screen p-4 bg-gray-50">
   <main class="flex flex-col md:flex-row gap-4 max-w-7xl mx-auto">
@@ -75,19 +13,19 @@
       <h2 class="text-xl font-semibold mb-4">Настройки</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label class="block text-sm font-medium">Данные</label>
+          <label class="block text-sm font-medium flex items-center">Данные <span class="ml-1 text-gray-400 cursor-help" title="Данные, которые будут закодированы в QR-код">?</span></label>
           <input id="data" type="text" value="https://example.com" class="mt-1 w-full border rounded p-2" />
         </div>
         <div class="md:col-span-2">
-          <label class="block text-sm font-medium">Логотип</label>
+          <label class="block text-sm font-medium flex items-center">Логотип <span class="ml-1 text-gray-400 cursor-help" title="Логотип будет встроен в центр QR-кода">?</span></label>
           <input id="image" type="file" accept="image/*" class="mt-1 w-full border rounded p-2" />
         </div>
         <div>
-          <label class="block text-sm font-medium">Ширина (px)</label>
+          <label class="block text-sm font-medium flex items-center">Ширина (px) <span class="ml-1 text-gray-400 cursor-help" title="Ширина скачиваемого изображения">?</span></label>
           <input id="width" type="number" value="300" class="mt-1 w-full border rounded p-2" />
         </div>
         <div>
-          <label class="block text-sm font-medium">Высота (px)</label>
+          <label class="block text-sm font-medium flex items-center">Высота (px) <span class="ml-1 text-gray-400 cursor-help" title="Высота скачиваемого изображения">?</span></label>
           <input id="height" type="number" value="300" class="mt-1 w-full border rounded p-2" />
         </div>
         <div class="md:col-span-2">
@@ -95,19 +33,19 @@
             <summary class="cursor-pointer font-medium">Цвета</summary>
             <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium">Цвет точек</label>
+                <label class="block text-sm font-medium flex items-center">Цвет точек <span class="ml-1 text-gray-400 cursor-help" title="Цвет основных точек QR-кода">?</span></label>
                 <input id="dotsColor" type="color" value="#000000" class="mt-1 w-full border rounded p-2 h-10" />
               </div>
               <div>
-                <label class="block text-sm font-medium">Цвет фона</label>
+                <label class="block text-sm font-medium flex items-center">Цвет фона <span class="ml-1 text-gray-400 cursor-help" title="Цвет фона QR-кода">?</span></label>
                 <input id="bgColor" type="color" value="#ffffff" class="mt-1 w-full border rounded p-2 h-10" />
               </div>
               <div>
-                <label class="block text-sm font-medium">Цвет углов</label>
+                <label class="block text-sm font-medium flex items-center">Цвет углов <span class="ml-1 text-gray-400 cursor-help" title="Цвет квадратов в углах">?</span></label>
                 <input id="cornerSquareColor" type="color" value="#000000" class="mt-1 w-full border rounded p-2 h-10" />
               </div>
               <div>
-                <label class="block text-sm font-medium">Цвет точек углов</label>
+                <label class="block text-sm font-medium flex items-center">Цвет точек углов <span class="ml-1 text-gray-400 cursor-help" title="Цвет точек внутри углов">?</span></label>
                 <input id="cornerDotColor" type="color" value="#000000" class="mt-1 w-full border rounded p-2 h-10" />
               </div>
             </div>
@@ -118,7 +56,7 @@
             <summary class="cursor-pointer font-medium">Стили</summary>
             <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium">Стиль точек</label>
+                <label class="block text-sm font-medium flex items-center">Стиль точек <span class="ml-1 text-gray-400 cursor-help" title="Форма точек QR-кода">?</span></label>
                 <select id="dotsType" class="mt-1 w-full border rounded p-2">
                   <option value="square" selected>square</option>
                   <option value="rounded">rounded</option>
@@ -129,7 +67,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium">Стиль углов</label>
+                <label class="block text-sm font-medium flex items-center">Стиль углов <span class="ml-1 text-gray-400 cursor-help" title="Форма угловых квадратов">?</span></label>
                 <select id="cornerSquareType" class="mt-1 w-full border rounded p-2">
                   <option value="square" selected>square</option>
                   <option value="dot">dot</option>
@@ -137,7 +75,7 @@
                 </select>
               </div>
               <div>
-                <label class="block text-sm font-medium">Стиль точек углов</label>
+                <label class="block text-sm font-medium flex items-center">Стиль точек углов <span class="ml-1 text-gray-400 cursor-help" title="Форма точек внутри углов">?</span></label>
                 <select id="cornerDotType" class="mt-1 w-full border rounded p-2">
                   <option value="square" selected>square</option>
                   <option value="dot">dot</option>
@@ -159,5 +97,68 @@
       </div>
     </section>
   </main>
+  <script>
+const widthInput = document.getElementById('width');
+const heightInput = document.getElementById('height');
+const initialWidth = parseInt(widthInput.value);
+const initialHeight = parseInt(heightInput.value);
+
+const qrCode = new QRCodeStyling({
+  width: initialWidth,
+  height: initialHeight,
+  type: "svg",
+  data: document.getElementById('data').value,
+  imageOptions: { hideBackgroundDots: true, imageSize: 0.4, margin: 0 },
+  dotsOptions: { color: document.getElementById('dotsColor').value, type: document.getElementById('dotsType').value },
+  backgroundOptions: { color: document.getElementById('bgColor').value },
+  cornersSquareOptions: { type: document.getElementById('cornerSquareType').value, color: document.getElementById('cornerSquareColor').value },
+  cornersDotOptions: { type: document.getElementById('cornerDotType').value, color: document.getElementById('cornerDotColor').value }
+});
+
+const updateQRCode = () => {
+  const data = document.getElementById('data').value;
+  const dotsType = document.getElementById('dotsType').value;
+  const dotsColor = document.getElementById('dotsColor').value;
+  const bgColor = document.getElementById('bgColor').value;
+  const cornerSquareType = document.getElementById('cornerSquareType').value;
+  const cornerSquareColor = document.getElementById('cornerSquareColor').value;
+  const cornerDotType = document.getElementById('cornerDotType').value;
+  const cornerDotColor = document.getElementById('cornerDotColor').value;
+
+  qrCode.update({
+    data,
+    dotsOptions: { type: dotsType, color: dotsColor },
+    backgroundOptions: { color: bgColor },
+    cornersSquareOptions: { type: cornerSquareType, color: cornerSquareColor },
+    cornersDotOptions: { type: cornerDotType, color: cornerDotColor }
+  });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  qrCode.append(document.getElementById('qr-preview'));
+  document.querySelectorAll('input,select').forEach(el => {
+    el.addEventListener('change', updateQRCode);
+  });
+
+  document.getElementById('image').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => qrCode.update({ image: reader.result });
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    const ext = document.getElementById('downloadType').value;
+    const width = parseInt(widthInput.value);
+    const height = parseInt(heightInput.value);
+    qrCode.update({ width, height });
+    qrCode.download({ name: 'qr-code', extension: ext });
+    qrCode.update({ width: initialWidth, height: initialHeight });
+  });
+
+  updateQRCode();
+});
+  </script>
 </body>
 </html>
