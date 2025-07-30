@@ -49,22 +49,23 @@
       document.querySelectorAll('input,select').forEach(el => {
         el.addEventListener('change', updateQRCode);
       });
+      
+      document.getElementById('image').addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          qrCode.update({ image: reader.result });
+        };
+        reader.readAsDataURL(file);
+      });
+
+      document.getElementById('downloadBtn').addEventListener('click', () => {
+        const ext = document.getElementById('downloadType').value;
+        qrCode.download({ name: 'qr-code', extension: ext });
+      });
+
       updateQRCode();
-    });
-
-    document.getElementById('image').addEventListener('change', (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = () => {
-        qrCode.update({ image: reader.result });
-      };
-      reader.readAsDataURL(file);
-    });
-
-    document.getElementById('downloadBtn').addEventListener('click', () => {
-      const ext = document.getElementById('downloadType').value;
-      qrCode.download({ name: 'qr-code', extension: ext });
     });
   </script>
 </head>
